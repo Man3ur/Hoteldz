@@ -23,7 +23,7 @@ Le logo est l'étoile à huit branches du zellige, dessinée en boussole. Mode s
 ## Démarrer
 
 - **En ligne** : https://man3ur.github.io/Hoteldz/ (mis à jour à chaque push sur `Master`).
-- **Sans rien installer** : `npm run build` produit `dist/index.html`, un fichier unique qui s'ouvre d'un double-clic dans un navigateur.
+- **Sans rien installer** : ouvrez **`Rihla.html`** (à la racine) d'un double-clic dans Chrome, Edge, Firefox ou Safari. `index.html` est le code source et ne s'ouvre pas seul. `npm run build` régénère `Rihla.html`.
 - **Pour développer** :
 
 ```bash
