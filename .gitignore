@@ -1,0 +1,15 @@
+node_modules
+dist
+.env
+.env.local
+*.log
+.DS_Store
+# Capacitor native build outputs
+android/app/build
+android/.gradle
+android/build
+android/local.properties
+ios/App/build
+ios/App/Pods
+ios/DerivedData
+*.tsbuildinfo
