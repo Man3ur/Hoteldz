@@ -10,7 +10,25 @@
     <title>Rihla</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="boot" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-family:system-ui,sans-serif;background:#0E4C6B;color:#FBF5EA;text-align:center;padding:24px">
+        <div style="font:700 42px Georgia,serif">Rihla</div>
+        <div id="boot-msg">Chargement…</div>
+        <div style="opacity:.7;font-size:14px;max-width:420px">Si rien ne s’affiche, ouvrez ce fichier dans un navigateur (Chrome, Edge, Firefox, Safari) plutôt que dans un aperçu de fichier.</div>
+        <noscript>JavaScript est désactivé : activez-le ou ouvrez ce fichier dans Chrome, Edge, Firefox ou Safari.</noscript>
+      </div>
+    </div>
+    <script>
+      // Si l'app ne démarre pas (aperçu de fichier, navigateur trop ancien…), on l'explique au lieu d'une page blanche.
+      setTimeout(function () {
+        var m = document.getElementById('boot-msg');
+        if (m) m.innerHTML = "L'application n'a pas pu démarrer ici.<br>Ouvrez ce fichier dans un navigateur (Chrome, Edge, Firefox, Safari), pas dans un aperçu.";
+      }, 4000);
+      window.addEventListener('error', function (e) {
+        var m = document.getElementById('boot-msg');
+        if (m) m.textContent = 'Erreur au démarrage : ' + (e.message || 'inconnue');
+      });
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

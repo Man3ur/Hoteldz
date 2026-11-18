@@ -22,6 +22,10 @@ Le logo est l'étoile à huit branches du zellige, dessinée en boussole. Mode s
 
 ## Démarrer
 
+- **En ligne** : https://man3ur.github.io/Hoteldz/ (mis à jour à chaque push sur `Master`).
+- **Sans rien installer** : `npm run build` produit `dist/index.html`, un fichier unique qui s'ouvre d'un double-clic dans un navigateur.
+- **Pour développer** :
+
 ```bash
 npm install
 npm run dev          # site web sur http://localhost:5173
