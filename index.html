@@ -14,20 +14,28 @@
       <div id="boot" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-family:system-ui,sans-serif;background:#0E4C6B;color:#FBF5EA;text-align:center;padding:24px">
         <div style="font:700 42px Georgia,serif">Rihla</div>
         <div id="boot-msg">Chargement…</div>
-        <div style="opacity:.7;font-size:14px;max-width:420px">Si rien ne s’affiche, ouvrez ce fichier dans un navigateur (Chrome, Edge, Firefox, Safari) plutôt que dans un aperçu de fichier.</div>
-        <noscript>JavaScript est désactivé : activez-le ou ouvrez ce fichier dans Chrome, Edge, Firefox ou Safari.</noscript>
+        <noscript>JavaScript est désactivé dans ce navigateur : activez-le pour utiliser Rihla.</noscript>
       </div>
     </div>
     <script>
-      // Si l'app ne démarre pas (aperçu de fichier, navigateur trop ancien…), on l'explique au lieu d'une page blanche.
+      // Diagnostic de démarrage : si l'app plante, on affiche l'erreur exacte au lieu d'une page blanche.
+      window.__rihlaBootError = function (msg) {
+        var m = document.getElementById('boot-msg');
+        if (m) m.innerHTML = "L'application n'a pas pu démarrer.<br><small style='opacity:.8'>Erreur : " +
+          String(msg).replace(/[<>&]/g, '') + "</small><br><small style='opacity:.7'>Envoyez une capture de ce message pour qu'on corrige.</small>";
+      };
+      window.addEventListener('error', function (e) { window.__rihlaBootError(e.message || (e.error && e.error.message) || 'inconnue'); });
+      window.addEventListener('unhandledrejection', function (e) { window.__rihlaBootError((e.reason && e.reason.message) || e.reason); });
       setTimeout(function () {
         var m = document.getElementById('boot-msg');
-        if (m) m.innerHTML = "L'application n'a pas pu démarrer ici.<br>Ouvrez ce fichier dans un navigateur (Chrome, Edge, Firefox, Safari), pas dans un aperçu.";
-      }, 4000);
-      window.addEventListener('error', function (e) {
-        var m = document.getElementById('boot-msg');
-        if (m) m.textContent = 'Erreur au démarrage : ' + (e.message || 'inconnue');
-      });
+        if (!m || m.textContent !== 'Chargement…') return;
+        if (document.querySelector('script[src*="/src/main"]') && location.protocol === 'file:') {
+          // index.html du code source : il a besoin de "npm run dev" et ne s'ouvre pas en double-clic.
+          m.innerHTML = "Ce fichier est le <b>code source</b>, il ne s'ouvre pas tout seul.<br>Ouvrez plutôt <b>Rihla.html</b> (à côté de ce fichier) ou le site en ligne :<br><a style='color:#E9A23B' href='https://man3ur.github.io/Hoteldz/'>man3ur.github.io/Hoteldz</a>";
+        } else {
+          window.__rihlaBootError('le script ne s’est pas exécuté (JavaScript bloqué ?)');
+        }
+      }, 3000);
     </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
