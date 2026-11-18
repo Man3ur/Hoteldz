@@ -3,6 +3,7 @@ import { HashRouter, NavLink, Route, Routes, useLocation, useNavigate } from 're
 import { App as CapApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
 import { IconHeart, IconHome, IconMap, IconSearch } from './components/Icons';
+import { Wordmark } from './components/Logo';
 import Home from './screens/Home';
 import Search from './screens/Search';
 import Favorites from './screens/Favorites';
@@ -20,6 +21,9 @@ function TabBar() {
   ];
   return (
     <nav className="tabbar" aria-label="Navigation principale">
+      <NavLink to="/" className="tabbar-brand" aria-label="Rihla, accueil">
+        <Wordmark />
+      </NavLink>
       {tabs.map((t) => (
         <NavLink key={t.to} to={t.to} end={t.to === '/'} className={({ isActive }) => `tab ${isActive ? 'active' : ''}`}>
           {t.icon}
@@ -65,7 +69,7 @@ function Shell() {
           </Routes>
         </Suspense>
       </main>
-      {!isDetail && <TabBar />}
+      <TabBar />
     </div>
   );
 }
