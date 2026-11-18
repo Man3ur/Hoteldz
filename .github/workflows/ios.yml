@@ -1,0 +1,33 @@
+name: iOS (IPA non signé)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [Master, main]
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx cap sync ios
+      - name: Archive (sans signature)
+        run: |
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Release \
+            -sdk iphoneos -archivePath build/Rihla.xcarchive archive \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+      - name: Empaqueter en .ipa
+        run: |
+          mkdir -p build/Payload
+          cp -R build/Rihla.xcarchive/Products/Applications/App.app build/Payload/
+          cd build && zip -qr Rihla-unsigned.ipa Payload
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rihla-unsigned-ipa
+          path: build/Rihla-unsigned.ipa
